@@ -25,8 +25,11 @@ prettyQuadraticFormula a b c = ( (-b + sqrtDiscriminant) / denominator,
     sqrtDiscriminant = sqrt (b*b - 4*a*c)
     denominator = 2*a
 
-areaOfTriangle :: Float -> Float -> Float -> Float
-areaOfTriangle a b c = sqrt(s*(s-a)*(s-b)*(s-c))
+areaOfTriangle :: Float -> Float -> Float -> Maybe Float
+areaOfTriangle a b c
+ | (a+b>=c && a+c>=b && b+c>=a) = Just (sqrt(s*(s-a)*(s-b)*(s-c)))
+ | (a+b<c || a+c<b || b+c<a) = Nothing
+ | otherwise = error "Non-exhaustive guards in function: grade"
 
  where
  s = (a+b+c)/2
