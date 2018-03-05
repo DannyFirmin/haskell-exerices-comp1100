@@ -32,3 +32,10 @@ areaOfTriangle a b c
 
  where
  s = (a+b+c)/2
+
+
+data Quadrants = Origin |
+                 QuadrantI | QuadrantII | QuadrantIII | QuadrantIV |
+                 XAxisPositive | XAxisNegative | YAxisPositive | YAxisNegative
+  deriving (Show, Eq)
+ quadrant :: Float -> Float -> Quadrants
