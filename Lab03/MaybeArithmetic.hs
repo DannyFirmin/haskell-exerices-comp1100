@@ -38,7 +38,6 @@ maybeSqrt mx = case mx of
 -- >>> maybeDiv (Just 1) Nothing
 -- Nothing
 -- Learn from stackoverflow.com
-
 maybeDiv :: Maybe Integer -> Maybe Integer -> Maybe Integer
 maybeDiv mx my = case (mx,my) of
     (_ , Just 0) -> Nothing
