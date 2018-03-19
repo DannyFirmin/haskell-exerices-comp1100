@@ -15,7 +15,9 @@ ints = SomeInts 1 (SomeInts 2 (SomeInts 3 NoInts))
 -- >>> noInts ints
 -- False
 noInts :: Ints -> Bool
-noInts = undefined -- TODO
+noInts NoInts = True
+noInts (SomeInts _ _) = False
+
 
 -- | headInt
 -- Examples:
@@ -25,7 +27,8 @@ noInts = undefined -- TODO
 -- >>> headInt ints
 -- 1
 headInt :: Ints -> Int
-headInt = undefined -- TODO
+headInt NoInts = error"It should return the first interger"
+headInt (SomeInts x _) = x
 
 -- | tailInts
 -- Examples:
@@ -37,7 +40,8 @@ headInt = undefined -- TODO
 -- >>> tailInts ints
 -- SomeInts 2 (SomeInts 3 NoInts)
 tailInts :: Ints -> Ints
-tailInts = undefined -- TODO
+tailInts NoInts = error"cannot be null"
+tailInts (SomeInts _ x) = x
 
 -- | A list of Char elements
 data Chars = NoChars | SomeChars Char Chars
@@ -53,7 +57,8 @@ chars = SomeChars 'c' (SomeChars 'a' (SomeChars 't' NoChars))
 -- >>> noChars (SomeChars 'a' NoChars)
 -- False
 noChars :: Chars -> Bool
-noChars = undefined -- TODO
+noChars NoChars = True
+noChars (SomeChars _ _ ) = False
 
 -- | headChar
 -- Examples:
@@ -65,7 +70,8 @@ noChars = undefined -- TODO
 -- >>> headChar (tailChars (SomeChars 'c' (SomeChars 'a' NoChars)))
 -- 'a'
 headChar :: Chars -> Char
-headChar = undefined -- TODO
+headChar NoChars = error "should not be null"
+headChar (SomeChars a _) = a
 
 -- | tailChars
 -- Examples:
@@ -77,7 +83,8 @@ headChar = undefined -- TODO
 -- >>> tailChars (SomeChars 'c' (SomeChars 'a' NoChars))
 -- SomeChars 'a' NoChars
 tailChars :: Chars -> Chars
-tailChars = undefined -- TODO
+tailChars NoChars = error "should not be null"
+tailChars (SomeChars _ a) = a
 
 -- | A List of arbitrary `a` elements
 data List a = Empty | Cons a (List a)
@@ -96,7 +103,9 @@ charList = Cons 'c' (Cons 'a' (Cons 't' Empty))
 -- >>> isEmptyList intList
 -- False
 isEmptyList :: List a -> Bool
-isEmptyList = undefined -- TODO
+isEmptyList Empty = True
+isEmptyList (Cons _ _) = False
+
 
 -- | headList
 -- Examples:
@@ -108,7 +117,8 @@ isEmptyList = undefined -- TODO
 -- >>> headList charList
 -- 'c'
 headList :: List a -> a
-headList = undefined -- TODO
+headList Empty = error"cannot be empty"
+headList (Cons a _) = a
 
 -- | tailList
 -- Examples:
@@ -130,7 +140,8 @@ headList = undefined -- TODO
 -- >>> headList (tailList (tailList charList))
 -- 't'
 tailList :: List a -> List a
-tailList = undefined -- TODO
+tailList Empty = error"cannot be empty"
+tailList (Cons _ a) = a
 
 -- | unconsList
 -- Examples:
@@ -143,7 +154,9 @@ tailList = undefined -- TODO
 -- >>> unconsList charList
 -- Just ('c',Cons 'a' (Cons 't' Empty))
 unconsList :: List a -> Maybe (a, List a)
-unconsList = undefined
+unconsList Empty = Nothing
+unconsList (Cons x xs) = Just (x,xs)
+-- unconsList x = Just (headList x, tailList x)
 
 -- | lastList
 -- Examples:
@@ -192,7 +205,8 @@ addFirst x xs = Cons x xs
 -- >>> addLast 4 intList
 -- Cons 1 (Cons 2 (Cons 3 (Cons 4 Empty)))
 addLast :: a -> List a -> List a
-addLast = undefined -- TODO
+addLast x Empty = Cons x Empty
+addLast x (Cons y ys) = Cons y (addLast x ys)
 
 -- | Convert from/to builtin list to/from our custom list
 -- prop> fromList (toList l) == l

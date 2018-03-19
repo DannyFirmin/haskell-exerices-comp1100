@@ -9,4 +9,4 @@ tree n f =
      rotated (-f*pi/10) (tree (n-1) f))
 
 main :: IO ()
-main = animationOf (tree 8 . sin)
+main = animationOf (tree 2 . sin)
