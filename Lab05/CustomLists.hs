@@ -170,7 +170,9 @@ unconsList (Cons x xs) = Just (x,xs)
 -- >>> lastList charList
 -- 't'
 lastList :: List a -> a
-lastList = undefined -- TODO
+lastList Empty = error"undefined"
+lastList (Cons x Empty) = x
+lastList (Cons x xs) = lastList xs
 
 -- | lengthList
 -- Examples:
@@ -183,7 +185,9 @@ lastList = undefined -- TODO
 -- >>> lengthList charList
 -- 3
 lengthList :: List a -> Int
-lengthList = undefined -- TODO
+lengthList Empty = 0
+lengthList (Cons _ Empty) = 1
+lengthList (Cons x xs) = 1 + lengthList xs
 
 -- | addFirst
 -- Examples:
