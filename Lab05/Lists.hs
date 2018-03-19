@@ -1,102 +1,64 @@
 module Lists where
 
 -- TODO: Fix the following errors by rewriting each expression
-string1 = "A" : " reasonably broken string"
-string2 = [1,2,3] : [4,5,6] : [7,8,9]
-string3 = (4.0, "Teddy") : (pi, "Duck")
-string4 = 9:8:[]:7:6:[]:[]
+list1 = "A" : " reasonably broken string"
+list2 = [1,2,3] : [4,5,6] : [7,8,9]
+list3 = (4.0, "Teddy") : (pi, "Duck")
+list4 = 9:8:[]:7:6:[]:[]
 
 -- TODO: Fix the following errors only by adding new characters
-string1' = "A" : " reasonably broken string"
-string2' = [1,2,3] : [4,5,6] : [7,8,9]
-string3' = (4.0, "Teddy") : (pi, "Duck")
-string4' = 9:8:[]:7:6:[]:[]
+list1' = "A" : " reasonably broken string"
+list2' = [1,2,3] : [4,5,6] : [7,8,9]
+list3' = (4.0, "Teddy") : (pi, "Duck")
+list4' = 9:8:[]:7:6:[]:[]
 
--- |
+-- | deconstruct separates a list into its head and tail.
+-- | The head of an empty list is Nothing, and its tail is the empty list.
 -- Examples:
 --
--- >>> deconstructList []
+-- >>> deconstruct []
 -- (Nothing,[])
 --
--- >>> deconstructList [1]
+-- >>> deconstruct [1]
 -- (Just 1,[])
 --
--- >>> deconstructList [1,2]
+-- >>> deconstruct [1,2]
 -- (Just 1,[2])
 --
-deconstructList :: [a] -> (Maybe a, [a])
-deconstructList list = case list of
+deconstruct :: [a] -> (Maybe a, [a])
+deconstruct list = case list of
   []   -> (Nothing, [])
   x:xs -> (Just x, xs)
 
--- | deconstructString is a version of deconstructList specialised for String values
+-- | swapFirstTwoElements
+--
 -- Examples:
---
--- >>> deconstructString ""
--- (Nothing,"")
---
--- >>> deconstructString "a"
--- (Just 'a',"")
---
--- >>> deconstructString "ab"
--- (Just 'a',"b")
---
--- prop> deconstructString x == deconstructList x
---
-deconstructString :: String -> (Maybe Char, String)
-deconstructString string = case string of
-  ""   -> (Nothing, "")
-  c:cs -> (Just c, cs)
-
--- | A String implementation from scratch
-data MyString = EmptyString | ConsStr Char MyString deriving Show
-
--- |
--- Examples:
---
--- >>> deconstructMyString EmptyString
--- (Nothing,EmptyString)
---
--- >>> deconstructMyString (ConsStr 'a' EmptyString)
--- (Just 'a',EmptyString)
---
--- >>> deconstructMyString (ConsStr 'a' (ConsStr 'b' EmptyString))
--- (Just 'a',ConsStr 'b' EmptyString)
---
-deconstructMyString :: MyString -> (Maybe Char, MyString)
-deconstructMyString = undefined -- TODO
-
--- An equivalent list implementation from scratch
-data MyList a = EmptyList | Cons a (MyList a) deriving Show
-
--- |
--- Examples:
---
--- >>> deconstructMyList EmptyList
--- (Nothing,EmptyList)
---
--- >>> deconstructMyList (Cons 1 EmptyList)
--- (Just 1,EmptyList)
---
--- >>> deconstructMyList (Cons 1 (Cons 2 EmptyList))
--- (Just 1,Cons 2 EmptyList)
---
-deconstructMyList :: MyList a -> (Maybe a, MyList a)
-deconstructMyList = undefined -- TODO
-
--- |
--- Examples:
---
 -- >>> swapFirstTwoElements [1,2]
 -- [2,1]
---
 -- >>> swapFirstTwoElements ["a","b"]
 -- ["b","a"]
---
 -- >>> swapFirstTwoElements "abcd"
 -- "bacd"
 swapFirstTwoElements :: [a] -> [a]
 swapFirstTwoElements = undefined -- TODO
+
+-- | oddsAndEvens
+--
+-- Examples:
+-- >>> oddsAndEvens []
+-- (0,0)
+-- >>> oddsAndEvens [0]
+-- (0,1)
+-- >>> oddsAndEvens [1]
+-- (1,0)
+-- >>> oddsAndEvens [1,2]
+-- (1,1)
+-- >>> oddsAndEvens [1,2,3]
+-- (2,1)
+--
+-- prop> oddsAndEvens [1..n | n/2 == 0]
+oddsAndEvens :: [Integer] -> (Int,Int)
+oddsAndEvens = undefined -- TODO
 
 --
 -- Pattern matching and evaluation
@@ -134,7 +96,6 @@ showExpression (e:es) = case e of
 --
 -- >>> evalStringExpression "3.2 + -4.2 - 5.3 + 6.3"
 -- 0.0
---
 evalStringExpression :: String -> String
 evalStringExpression s = showExpression (eval (tokenise s))
 
@@ -144,6 +105,6 @@ evalStringExpression s = showExpression (eval (tokenise s))
 -- >> eval [Num 3.2, Plus, Minus, Num 4.2, Minus, Num 5.3, Plus, Num 6.3]
 -- [Num 0.0]
 --
--- Start by writing a type signature in place of the next commented line:
--- eval :: ...your code here...
+-- Start by writing a better type signature before giving a definition of eval:
+eval :: a -- TODO
 eval = undefined -- TODO
