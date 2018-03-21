@@ -43,7 +43,10 @@ deconstruct list = case list of
 -- >>> swapFirstTwoElements "abcd"
 -- "bacd"
 swapFirstTwoElements :: [a] -> [a]
-swapFirstTwoElements = undefined -- TODO
+swapFirstTwoElements list = case list of
+  x:y:xs -> y:x:xs
+  [x] -> error"error"
+  [] -> error"error"
 
 -- | oddsAndEvens
 --
@@ -61,7 +64,11 @@ swapFirstTwoElements = undefined -- TODO
 --
 -- prop> oddsAndEvens [1..n | n/2 == 0]
 oddsAndEvens :: [Integer] -> (Int,Int)
-oddsAndEvens = undefined -- TODO
+oddsAndEvens [] = (0,0)
+oddsAndEvens (x:xs)
+  |odd x == True = (fst (oddsAndEvens xs) + 1, snd (oddsAndEvens xs))
+  |even x == True = (fst (oddsAndEvens xs), snd (oddsAndEvens xs) + 1)
+  |otherwise = error"error"
 
 --
 -- Pattern matching and evaluation
