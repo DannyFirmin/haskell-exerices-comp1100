@@ -172,7 +172,7 @@ unconsList (Cons x xs) = Just (x,xs)
 lastList :: List a -> a
 lastList Empty = error"undefined"
 lastList (Cons x Empty) = x
-lastList (Cons x xs) = lastList xs
+lastList (Cons _ xs) = lastList xs
 
 -- | lengthList
 -- Examples:
@@ -187,7 +187,7 @@ lastList (Cons x xs) = lastList xs
 lengthList :: List a -> Int
 lengthList Empty = 0
 lengthList (Cons _ Empty) = 1
-lengthList (Cons x xs) = 1 + lengthList xs
+lengthList (Cons _ xs) = 1 + lengthList xs
 
 -- | addFirst
 -- Examples:
