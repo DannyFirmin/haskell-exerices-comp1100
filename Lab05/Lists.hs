@@ -1,14 +1,12 @@
 module Lists where
 
--- TODO: Fix the following errors by rewriting each expression
+
 list1 = 'A': " reasonably broken string"
 list2 = [1,2,3] ++ [4,5,6] ++ [7,8,9]
 list3 = (4.0, "Teddy") :[(pi, "Duck")]
 list4 = 9:8:7:6:[]
 
 
-
--- TODO: Fix the following errors only by adding new characters
 list1' = "A" : " reasonably broken string":[]
 list2' = [1,2,3] : [4,5,6] : [7,8,9]:[]
 list3' = (4.0, "Teddy") : (pi, "Duck"):[]
