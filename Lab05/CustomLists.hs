@@ -153,9 +153,16 @@ tailList (Cons _ a) = a
 -- Just (1,Cons 2 (Cons 3 Empty))
 -- >>> unconsList charList
 -- Just ('c',Cons 'a' (Cons 't' Empty))
+
 unconsList :: List a -> Maybe (a, List a)
-unconsList Empty = Nothing
-unconsList (Cons x xs) = Just (x,xs)
+unconsList x = case x of
+  Empty -> Nothing
+  Cons a Empty -> Just (a,Empty)
+  Cons a b -> Just (a,b)
+
+--unconsList Empty = Nothing
+--unconsList (Cons x xs) = Just (x,xs)
+
 -- unconsList x = Just (headList x, tailList x)
 
 -- | lastList
@@ -208,6 +215,7 @@ addFirst x xs = Cons x xs
 -- Cons 1 (Cons 2 Empty)
 -- >>> addLast 4 intList
 -- Cons 1 (Cons 2 (Cons 3 (Cons 4 Empty)))
+
 addLast :: a -> List a -> List a
 addLast x Empty = Cons x Empty
 addLast x (Cons y ys) = Cons y (addLast x ys)
