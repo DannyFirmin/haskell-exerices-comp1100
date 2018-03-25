@@ -219,6 +219,16 @@ addFirst x xs = Cons x xs
 addLast :: a -> List a -> List a
 addLast x Empty = Cons x Empty
 addLast x (Cons y ys) = Cons y (addLast x ys)
+-- Question: are these the same? why it is not working?
+-- addLast :: a -> List a -> List a
+-- addLast x
+--   |x Empty = Cons x Empty
+--   |x (Cons y ys) = Cons y (addLast x ys)
+
+-- addLast :: a -> List a -> List a
+-- addLast x = case x of
+--   x Empty -> Cons x Empty
+--   x (Cons y ys) = Cons y (addLast x ys)
 
 -- | Convert from/to builtin list to/from our custom list
 -- prop> fromList (toList l) == l
