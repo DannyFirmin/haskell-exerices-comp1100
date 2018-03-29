@@ -88,7 +88,7 @@ tailChars (SomeChars _ a) = a
 
 -- | A List of arbitrary `a` elements
 data List a = Empty | Cons a (List a)
-  deriving Show
+  deriving (Show,Eq)
 
 intList :: List Int
 intList = Cons 1 (Cons 2 (Cons 3 Empty))
@@ -231,7 +231,7 @@ addLast x (Cons y ys) = Cons y (addLast x ys)
 --   x (Cons y ys) = Cons y (addLast x ys)
 
 -- | Convert from/to builtin list to/from our custom list
--- prop> fromList (toList l) == l
+-- prop> toList (fromList l) == l
 fromList :: [a] -> List a
 fromList [] = Empty
 fromList (x:xs) = Cons x (fromList xs)
