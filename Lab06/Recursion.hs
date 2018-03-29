@@ -1,6 +1,8 @@
 module Recursion where
 
 import Prelude hiding (product)
+import Data.Char
+
 
 {-# ANN module ("HLint: ignore Eta reduce"::String) #-}
 {-# ANN module ("HLint: ignore Use foldl"::String) #-}
@@ -17,7 +19,10 @@ import Prelude hiding (product)
 -- 10
 -- >>> sum1 [-1,1]
 -- 0
-sum1 = undefined -- TODO
+sum1 :: [Integer]-> Integer
+sum1 i = case i of
+  [] -> 0
+  x:xs -> x+sum1 xs
 
 -- | sum2 : Compute the sum of the elements of a list of Integer
 -- This time, use three cases:
@@ -30,7 +35,10 @@ sum1 = undefined -- TODO
 -- prop> sum1 l == sum2 l
 --
 sum2 :: (Num a) => [a] -> a
-sum2 = undefined -- TODO
+sum2 x = case x of
+  [] -> 0
+  x:[] -> x
+  x:y:zs -> (x+y)+sum2 zs
 
 -- | sum3 :
 sum3 :: (Num a) => [a] -> a
@@ -38,6 +46,7 @@ sum3 list = accumulate 0 list
   where
     accumulate a []     = a
     accumulate a (x:xs) = accumulate (a + x) xs
+--    [c] -> [toUpper c]
 
 factorial :: Integer -> Integer
 factorial 0 = 1
@@ -61,7 +70,9 @@ factorial2 :: Integer -> Integer
 factorial2 n = accumulate 1 n
   where
     accumulate :: Integer -> Integer -> Integer
-    accumulate = undefined -- TODO
+    accumulate a 0 = 1
+    accumulate a 1 = 1
+    accumulate a x = x*factorial2 (x-1)
 
 data Creature = Salmon | Puffin | Fox | Bear | Human
     deriving (Eq, Enum, Show)
@@ -77,19 +88,28 @@ happyCreature creature = case creature of
 -- >>> product [2,3,4]
 -- 24
 product :: (Num a) => [a] -> a
-product = undefined -- TODO
+product list = case list of
+   [] -> 1
+   x:[] -> x
+   x:xs -> x*product xs
+
 
 -- | Convert a String to all upper case
 -- >>> convertToUpperCase "xYzZy"
 -- "XYZZY"
+
 convertToUpperCase :: String -> String
-convertToUpperCase = undefined -- TODO
+convertToUpperCase str = case str of
+   "" -> ""
+   c:cs -> toUpper c : convertToUpperCase cs
 
 -- | Reverse the elements of a list
 -- >>> invert [1,2,3,4]
 -- [4,3,2,1]
 invert :: [a] -> [a]
-invert = undefined -- TODO
+invert n = case n of
+   [] -> []
+   x:xs -> invert xs ++ [x]
 
 -- | Return all subsequences of the list that add up to the target sum
 -- >>> rucksack [3,7,5,9,13,17] 30
