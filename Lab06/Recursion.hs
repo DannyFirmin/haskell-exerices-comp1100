@@ -38,7 +38,9 @@ sum2 :: (Num a) => [a] -> a
 sum2 x = case x of
   [] -> 0
   x:[] -> x
-  x:y:zs -> (x+y)+sum2 zs
+--x:y:zs -> (x+y)+sum2 zs
+--(original code, I misunderstood the requirement. Thanks Jack for pointing it out)
+  x:y:zs -> sum2 (x+y:zs)
 
 -- | sum3 :
 sum3 :: (Num a) => [a] -> a
