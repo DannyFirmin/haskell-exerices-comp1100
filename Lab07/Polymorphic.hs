@@ -5,10 +5,15 @@ import Data.Ratio
 import Prelude hiding (product)
 
 stringLength :: String -> Int
-stringLength = undefined -- TODO
+stringLength x = case x of
+  [] -> 0
+  ['a',_] -> 1
+  _:xs -> 1 + stringLength xs
 
 integerListLength :: [Integer] -> Int
-integerListLength = undefined -- TODO
+integerListLength n = case n of
+  [] -> 0
+  _:xs -> 1 + integerListLength xs
 
 -- | A polymorphic length function
 polymorphicLength :: [a] -> Int
@@ -17,28 +22,46 @@ polymorphicLength list = case list of
   _ : xs -> 1 + polymorphicLength xs
 
 -- | A polymorphic reverse function
-reverseOf :: a -- TODO
-reverseOf = undefined -- TODO
+reverseOf :: [a] -> [a]
+reverseOf n = case n of
+  [] -> []
+  x:xs -> reverseOf xs ++ [x]
 
 -- | A polymorphic isPalindrome function
-isPalindrome :: a -- TODO
-isPalindrome = undefined -- TODO
+isPalindrome :: (Eq a) => [a] -> Bool
+isPalindrome list = (list == reverseOf list)
 
 -- | A polymorphic list equality function
-listEqual :: [a] -> [a] -> Bool
-listEqual = undefined -- TODO
+listEqual :: (Eq a) => [a] -> [a] -> Bool
+listEqual list1 list2 = case (list1,list2) of
+  ([],[] )-> True
+  ([],_) -> False
+  (_,[]) -> False
+  (x:xs,y:ys) -> (x==y) && (xs `listEqual` ys)
 
-isMonotonicallyIncreasing :: undefined -- TODO
-isMonotonicallyIncreasing = undefined -- TODO
+isMonotonicallyIncreasing :: (Ord a) => [a] -> Bool
+isMonotonicallyIncreasing list = case list of
+  [] -> True
+  i1:i2:is
+    |i1<=i2 -> isMonotonicallyIncreasing (i2:is)
+    |otherwise -> False
+  [_] -> True
 
-normaliseVector :: undefined -- TODO
-normaliseVector = undefined
+normaliseVector :: (Floating a) => [a] -> [a]
+normaliseVector vector = divideByScalar vector (norm vector)
 
-divideByScalar :: undefined -- TODO
-divideByScalar = undefined -- TODO
+divideByScalar :: (Fractional a) =>[a] -> a -> [a]
+divideByScalar vector' scalar = case vector' of
+   [] -> []
+   f: fs -> (f / scalar): (divideByScalar fs scalar)
 
-norm :: undefined -- TODO
-norm = undefined -- TODO
+norm :: (Floating a) => [a] -> a
+norm vector' = sqrt(sumSqr vector')
+  where
+  sumSqr :: (Num a)=> [a] -> a
+  sumSqr vector'' = case vector'' of
+    []    -> 0
+    f: fs -> f*f + (sumSqr fs)
 
 reallyPolymorphicLength :: (Integral b) => [a] -> b
 reallyPolymorphicLength list = case list of
@@ -59,5 +82,8 @@ floatZero    = 0.0
 doubleZero   = 0.0
 complexZero  = mkPolar 0.0 0.0
 
-product :: undefined -- TODO
-product = undefined -- TODO
+product :: (Num a, Eq a) => a -> a -> a
+product x y = case y of
+  0->0
+  1->x
+  _->x+product x(y-1)
