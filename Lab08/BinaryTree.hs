@@ -13,6 +13,16 @@ data BinaryTree a
          (BinaryTree a)
   deriving (Show, Eq)
 
+tree1 :: BinaryTree Int
+tree1 =
+  Node
+    5
+    (Node
+       4
+       (Node 2 Null (Node 11 Null Null))
+       (Node 1 (Node 0 Null Null) (Node (-3) Null Null)))
+    (Node 3 (Node 8 (Node (-4) Null Null) (Node 7 Null Null)) Null)
+
 -- Exercise 1
 treeSize :: Integral b => BinaryTree a -> b
 treeSize = undefined -- TODO
