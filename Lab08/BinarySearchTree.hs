@@ -8,23 +8,37 @@ inOrder :: BinarySearchTree a -> [a]
 inOrder Null = []
 inOrder (Node y l r) = inOrder l ++ [y] ++ inOrder r
 
-isAscending :: [Int] -> Bool
+isAscending :: Ord a=> [a] -> Bool
 isAscending [] = False
 isAscending [x] = True
 isAscending (x:xs) = x <= head (xs) && isAscending xs
 
-treeIsValid :: BinarySearchTree Int -> Bool
+treeIsValid :: Ord a=>BinarySearchTree a -> Bool
 --treeIsValid :: Ord a => BinarySearchTree a -> Bool
 treeIsValid = isAscending . inOrder
 
-treeMinimum :: BinarySearchTree a -> a
-treeMinimum = undefined -- TODO
+treeMinimum :: (Ord a)=>BinarySearchTree a -> a
+treeMinimum n = case n of
+  Null -> error "empty tree"
+  Node a Null Null -> a
+  Node a Null r -> min a (treeMinimum r)
+  Node a l Null -> min a (treeMinimum l)
+  Node a l r -> minimum [a, treeMinimum l, treeMinimum r]
 
-treeMaximum :: BinarySearchTree a -> a
-treeMaximum = undefined -- TODO
+treeMaximum :: (Ord a)=> BinarySearchTree a -> a
+treeMaximum n = case n of
+  Null -> error "empty tree"
+  Node a Null Null -> a
+  Node a Null r -> max a (treeMaximum r)
+  Node a l Null -> max a (treeMaximum l)
+  Node a l r -> maximum [a, treeMaximum l, treeMaximum r]
 
-treeContains :: Ord a => a -> BinarySearchTree a -> Bool
-treeContains = undefined -- TODO
+
+treeContains :: (Eq a) => a -> BinarySearchTree a -> Bool
+treeContains a Null = False
+treeContains a (Node c l r)
+  |a==c = True
+  |otherwise = treeContains a l || treeContains a r
 
 treeFlattenOrdered :: BinarySearchTree a -> [a]
 treeFlattenOrdered = undefined -- TODO
