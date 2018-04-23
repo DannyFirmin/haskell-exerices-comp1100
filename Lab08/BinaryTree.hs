@@ -1,5 +1,10 @@
-module BinaryTree where
-
+module BinaryTree (
+      BinaryTree (Null, Node),
+      treeSize,     -- :: Integral b => BinaryTree a -> b
+      treeDepth,    -- :: Integral b => BinaryTree a -> b
+      treeFlatten,  -- :: BinaryTree a -> [a]
+      treeLeaves    -- :: BinaryTree a -> [a]
+) where
 data List a
   = Empty
   | Cons a
@@ -25,16 +30,34 @@ tree1 =
 
 -- Exercise 1
 treeSize :: Integral b => BinaryTree a -> b
-treeSize = undefined -- TODO
+treeSize n = case n of
+  Null -> 0
+  Node _ l r -> 1 + treeSize l + treeSize r
 
 treeDepth :: Integral b => BinaryTree a -> b
-treeDepth = undefined -- TODO
+treeDepth  n = case n of
+  Null -> 0
+  Node _ l r -> 1 + max(treeDepth l) (treeDepth r)
 
 treeFlatten :: BinaryTree a -> [a]
-treeFlatten = undefined -- TODO
+treeFlatten n = case n of
+  Null -> []
+  Node a l r -> a:treeFlatten l++treeFlatten r
 
 treeLeaves :: BinaryTree a -> [a]
-treeLeaves = undefined -- TODO
+treeLeaves n = case n of
+  Null -> []
+  Node a (Null) (Null) -> [a]
+  Node _ l r -> treeLeaves l ++ treeLeaves r
+
+-- Test
+test1, test2 :: BinaryTree Float
+test1 = Node 0.0 Null Null
+test2 = Node 10.9 Null (Node (-1.0) Null Null)
+test3 :: BinaryTree String
+test3 = Node "Galvanic" (Node "metal" (Node "beats" Null Null)
+    (Node "stomp" Null Null)) (Node "out" Null (Node "louder" Null
+        Null))
 
 -- Exercise 2
 treeMap :: (a -> b) -> BinaryTree a -> BinaryTree b
