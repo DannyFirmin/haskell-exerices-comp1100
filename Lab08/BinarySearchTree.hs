@@ -4,10 +4,6 @@ import BinaryTree
 
 type BinarySearchTree a = BinaryTree a
 
-inOrder :: BinarySearchTree a -> [a]
-inOrder Null = []
-inOrder (Node y l r) = inOrder l ++ [y] ++ inOrder r
-
 isAscending :: Ord a=> [a] -> Bool
 isAscending [] = False
 isAscending [x] = True
@@ -15,7 +11,7 @@ isAscending (x:xs) = x <= head (xs) && isAscending xs
 
 treeIsValid :: Ord a=>BinarySearchTree a -> Bool
 --treeIsValid :: Ord a => BinarySearchTree a -> Bool
-treeIsValid = isAscending . inOrder
+treeIsValid = isAscending . treeFlattenOrdered
 
 treeMinimum :: (Ord a)=>BinarySearchTree a -> a
 treeMinimum n = case n of
@@ -41,10 +37,19 @@ treeContains a (Node c l r)
   |otherwise = treeContains a l || treeContains a r
 
 treeFlattenOrdered :: BinarySearchTree a -> [a]
-treeFlattenOrdered = undefined -- TODO
+treeFlattenOrdered  Null = []
+treeFlattenOrdered (Node y l r) = treeFlattenOrdered l ++ [y] ++ treeFlattenOrdered r
+
+-- treeInsert :: Ord a => a -> BinarySearchTree a -> BinarySearchTree a
+-- treeInsert = undefined
 
 treeInsert :: Ord a => a -> BinarySearchTree a -> BinarySearchTree a
-treeInsert = undefined -- TODO
+treeInsert x Null  = Node x Null Null
+treeInsert x (Node a l r)
+  |a == x = Node a l r
+  |a < x = Node a l (treeInsert x r)
+  |a > x = Node a (treeInsert x l) r
+
 
 -- Test
 test4 :: BinarySearchTree Char
