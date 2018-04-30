@@ -86,11 +86,18 @@ applyFunction'' :: (a -> b) -> a -> b
 applyFunction'' f x = f x
 
 -- | applyFunctionOverList'
-applyFunctionOverList' = undefined -- TODO
+--       applyFunctionOverList :: (Integer -> Integer) -> [Integer] -> [Integer]
+applyFunctionOverList' :: (Num a)=> ([a] -> [a]) -> [[a]] -> [[a]]
+applyFunctionOverList' func [] = []
+applyFunctionOverList' func (x:xs) = [func x]++ applyFunctionOverList' func xs
 
 -- | selectWhereTrue'
-selectWhereTrue' = undefined -- TODO
-
+--       selectWhereTrue :: (Double -> Bool) -> [Double] -> [Double]
+selectWhereTrue' :: (Num a)=> ([a] -> Bool) -> [[a]] -> [[a]]
+selectWhereTrue' func [] = []
+selectWhereTrue' func (x:xs)
+  |func x == True = [x] ++ selectWhereTrue' func xs
+  |otherwise = selectWhereTrue' func xs
 -- | combineListsWithBinaryOperation
 -- Examples:
 --
