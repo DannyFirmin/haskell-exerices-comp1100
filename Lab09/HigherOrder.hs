@@ -87,13 +87,13 @@ applyFunction'' f x = f x
 
 -- | applyFunctionOverList'
 --       applyFunctionOverList :: (Integer -> Integer) -> [Integer] -> [Integer]
-applyFunctionOverList' :: (Num a)=> ([a] -> [a]) -> [[a]] -> [[a]]
+applyFunctionOverList' :: (Num a)=> (a -> a) -> [a] -> [a]
 applyFunctionOverList' func [] = []
 applyFunctionOverList' func (x:xs) = [func x]++ applyFunctionOverList' func xs
 
 -- | selectWhereTrue'
 --       selectWhereTrue :: (Double -> Bool) -> [Double] -> [Double]
-selectWhereTrue' :: (Num a)=> ([a] -> Bool) -> [[a]] -> [[a]]
+selectWhereTrue' :: (Num a)=> (a -> Bool) -> [a] -> [a]
 selectWhereTrue' func [] = []
 selectWhereTrue' func (x:xs)
   |func x == True = [x] ++ selectWhereTrue' func xs
