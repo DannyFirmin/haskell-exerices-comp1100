@@ -61,4 +61,5 @@ test3 = Node "Galvanic" (Node "metal" (Node "beats" Null Null)
 
 -- Exercise 2
 treeMap :: (a -> b) -> BinaryTree a -> BinaryTree b
-treeMap = undefined -- TODO
+treeMap f Null = Null
+treeMap f (Node x t1 t2) = Node (f x) (treeMap f t1) (treeMap f t2)
