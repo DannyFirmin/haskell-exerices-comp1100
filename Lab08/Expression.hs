@@ -16,4 +16,10 @@ data Operand
   deriving (Show, Eq)
 
 eval :: Floating a => Expression a -> Expression a
-eval = undefined -- TODO
+eval (Number a) = Number a
+eval (Node a Plus b) =  a+b
+eval (Node a Minus b) = a-b
+eval (Node a Times b) = a*b
+eval (Node a Power b) = a^b
+
+
