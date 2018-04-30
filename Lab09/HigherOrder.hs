@@ -27,7 +27,7 @@ flipArguments func doubleValue integerValue = func integerValue doubleValue
 
 -- | applyFunction
 applyFunction :: (Integer -> Integer) -> Integer -> Integer
-applyFunction = undefined -- TODO
+applyFunction func m = func m
 
 double :: Integer -> Integer
 double m = 2 * m
@@ -47,7 +47,8 @@ reverseSign m = -m
 -- >>> applyFunctionOverList reverseSign [1,2,3]
 -- [-1,-2,-3]
 applyFunctionOverList :: (Integer -> Integer) -> [Integer] -> [Integer]
-applyFunctionOverList = undefined -- TODO
+applyFunctionOverList func [] = []
+applyFunctionOverList func (x:xs) = [func x]++ applyFunctionOverList func xs
 
 -- | selectWhereTrue
 -- Examples:
@@ -58,7 +59,10 @@ applyFunctionOverList = undefined -- TODO
 -- >>> selectWhereTrue isPositive [0.0, 1.0, -1.0, -9.2, 3.0]
 -- [1.0, 3.0]
 selectWhereTrue :: (Double -> Bool) -> [Double] -> [Double]
-selectWhereTrue = undefined -- TODO
+selectWhereTrue func [] = []
+selectWhereTrue func (x:xs)
+  |func x == True = [x] ++ selectWhereTrue func xs
+  |otherwise = selectWhereTrue func xs
 
 isNegative :: Double -> Bool
 isNegative x = x < 0.0
