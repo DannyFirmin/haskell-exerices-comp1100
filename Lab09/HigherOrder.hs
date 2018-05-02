@@ -1,7 +1,9 @@
 module HigherOrder where
 
 import Prelude hiding (product, sum)
-
+{-# ANN module ("HLint: ignore Unnecessary hiding"::String) #-}
+{-# ANN module ("HLint: ignore Use sum"::String) #-}
+{-# ANN module ("HLint: ignore Use product"::String) #-}
 {-# ANN module ("HLint: ignore Eta reduce" :: String) #-}
 
 -- | isEqual
