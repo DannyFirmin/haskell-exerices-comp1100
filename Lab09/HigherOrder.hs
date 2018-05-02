@@ -1,6 +1,7 @@
 module HigherOrder where
 
 import Prelude hiding (product, sum)
+-- import Data.Char
 {-# ANN module ("HLint: ignore Unnecessary hiding"::String) #-}
 {-# ANN module ("HLint: ignore Use sum"::String) #-}
 {-# ANN module ("HLint: ignore Use product"::String) #-}
@@ -160,53 +161,45 @@ foldLeft _ e [] = e
 foldLeft f e (x:xs) = foldLeft f (f e x) xs
 
 -- | Reimplement sum using foldLeft or foldRight
--- TODO
 sum :: Num a => [a] -> a
 sum list =
   case list of
-    [] -> e
-    x:xs -> (+) x (sum xs)
-  where
-    e = 0
+   (x:xs) -> foldRight (+) x xs
+   [] -> 0
 
 -- | Reimplement product using foldLeft or foldRight
--- TODO
 product :: Num a => [a] -> a
 product list =
   case list of
-    [] -> e
-    x:xs -> (*) x (product xs)
-  where
-    e = 1
+    (x:xs) -> foldRight (*) x xs
+    [] -> 0
 
 -- | Reimplement allTrue using foldLeft or foldRight
--- TODO
 allTrue :: [Bool] -> Bool
 allTrue list =
   case list of
-    [] -> e
-    b:bs -> (&&) b (allTrue bs)
-  where
-    e = True
+    (x:xs) -> foldRight (&&) x xs
+    [] -> False
+
 
 -- | Reimplement anyTrue using foldLeft or foldRight
--- TODO
 anyTrue :: [Bool] -> Bool
 anyTrue list =
   case list of
-    [] -> e
-    b:bs -> (||) b (anyTrue bs)
-  where
-    e = False
+    (x:xs) -> foldRight (||) x xs
+    [] -> False
 
--- | convertToLower
-convertToLower = undefined -- TODO
-
--- | removeNonAlphanum
-removeNonAlphanum = undefined -- TODO
-
--- | dotProduct
-dotProduct = undefined -- TODO
+-- -- | convertToLower
+-- convertToLower ::[Char] -> [Char]
+-- convertToLower a = map toLower a
+--
+-- -- | removeNonAlphanum
+-- removeNonAlphanum :: [Char] -> [Char]
+-- removeNonAlphanum a = filter isAlphaNum a
+--
+-- -- | dotProduct
+-- dotProduct :: (Num a) => [a] -> [a] -> a
+-- dotProduct l1 l2 = sum (map (\(a,b) -> a*b) (zip l1 l2)
 
 -- | isSquare
 -- Examples:
@@ -224,14 +217,16 @@ isSquare i = floor (sqrt (fromIntegral i) :: Float) ^ (2 :: Int) == i
 --
 -- >>> sumOfSquaresUpTo 1000
 -- 10416
-sumOfSquaresUpTo = undefined -- TODO
+sumOfSquaresUpTo :: Int -> Int
+sumOfSquaresUpTo n = sum (filter isSquare [0..n])
 
 -- | largestSquareSmallerThan
 -- Example:
 --
 -- >>> largestSquareSmallerThan 1000
 -- 961
-largestSquareSmallerThan = undefined -- TODO
+largestSquareSmallerThan :: Int -> Int
+largestSquareSmallerThan n = last (filter isSquare [0..n])
 
 -- | isPrime
 -- Examples:
