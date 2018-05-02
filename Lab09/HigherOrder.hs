@@ -55,11 +55,11 @@ applyFunctionOverList func (x:xs) = [func x]++ applyFunctionOverList func xs
 -- | selectWhereTrue
 -- Examples:
 --
---  >>> selectWhereTrue isNegative [0.0, 1.0, -1.0, -9.2, 3.0]
--- [-1.0, -9.2]
+-- >>> selectWhereTrue isNegative [0.0, 1.0, -1.0, -9.2, 3.0]
+-- [-1.0,-9.2]
 --
 -- >>> selectWhereTrue isPositive [0.0, 1.0, -1.0, -9.2, 3.0]
--- [1.0, 3.0]
+-- [1.0,3.0]
 selectWhereTrue :: (Double -> Bool) -> [Double] -> [Double]
 selectWhereTrue func [] = []
 selectWhereTrue func (x:xs)
@@ -111,14 +111,23 @@ selectWhereTrue' func (x:xs)
 --
 -- >>> combineListsWithBinaryOperation div [1..10] [-10..0]
 -- [-1, -1, -1, -1, -1, -2, -2, -3, -5, -10]
-combineListsWithBinaryOperation = undefined -- TODO
+combineListsWithBinaryOperation :: (a->b->c)-> [a] -> [b] -> [c]
+combineListsWithBinaryOperation f [][] = []
+combineListsWithBinaryOperation f [_][]=[]
+combineListsWithBinaryOperation f [][_]=[]
+combineListsWithBinaryOperation f (x:xs) (y:ys) = (f x y):combineListsWithBinaryOperation f xs ys
+
 
 -- | combineElementsIntoTuples
 combineElementsIntoTuples :: [a] -> [b] -> [(a, b)]
-combineElementsIntoTuples = undefined -- TODO
+combineElementsIntoTuples [] [] = []
+combineElementsIntoTuples [x] [y] = [(x,y)]
+combineElementsIntoTuples (x:xs) (y:ys) = (x,y):combineElementsIntoTuples xs ys
 
--- | combineElementsIntoTuples'
-combineElementsIntoTuples' = undefined -- TODO
+
+-- -- | combineElementsIntoTuples'
+-- combineElementsIntoTuples' :: ((a->b->c)-> [a] -> [b] -> [c]) ->[(a, b)]
+-- combineElementsIntoTuples' f a b= combineListsWithBinaryOperation a b
 
 -- | foldRight
 -- Examples:
@@ -132,7 +141,8 @@ combineElementsIntoTuples' = undefined -- TODO
 -- >>> foldRight (-) 0 [1,2,3,4,5]
 -- 3
 foldRight :: (a -> b -> b) -> b -> [a] -> b -- predefined as foldr
-foldRight f e xs = undefined -- TODO
+foldRight f e [] = e
+foldRight f e (x:xs) =
 
 -- | foldLeft
 -- Examples:
