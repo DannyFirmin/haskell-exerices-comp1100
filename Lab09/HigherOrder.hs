@@ -121,7 +121,10 @@ combineElementsIntoTuples (x:xs) (y:ys) = (x,y) : combineElementsIntoTuples xs y
 combineElementsIntoTuples _ _ = []
 
 -- | combineElementsIntoTuples'
-combineElementsIntoTuples' = undefined -- TODO
+
+--combineElementsIntoTuples' :: ((a->b->c)-> [a] -> [b] -> [c]) ->[(a, b)]
+--combineElementsIntoTuples' f a b= combineListsWithBinaryOperation a b
+
 
 -- | foldRight
 -- Examples:
