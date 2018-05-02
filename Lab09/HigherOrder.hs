@@ -55,7 +55,7 @@ applyFunctionOverList func (x:xs) = [func x]++ applyFunctionOverList func xs
 -- | selectWhereTrue
 -- Examples:
 --
--- >>> selectWhereTrue isNegative [0.0, 1.0, -1.0, -9.2, 3.0]
+--  >>> selectWhereTrue isNegative [0.0, 1.0, -1.0, -9.2, 3.0]
 -- [-1.0,-9.2]
 --
 -- >>> selectWhereTrue isPositive [0.0, 1.0, -1.0, -9.2, 3.0]
@@ -120,6 +120,8 @@ combineElementsIntoTuples :: [a] -> [b] -> [(a, b)]
 combineElementsIntoTuples (x:xs) (y:ys) = (x,y) : combineElementsIntoTuples xs ys
 combineElementsIntoTuples _ _ = []
 
+-- | combineElementsIntoTuples'
+combineElementsIntoTuples' = undefined -- TODO
 
 -- | foldRight
 -- Examples:
