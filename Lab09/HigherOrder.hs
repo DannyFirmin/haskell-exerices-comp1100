@@ -49,7 +49,7 @@ reverseSign m = -m
 -- >>> applyFunctionOverList reverseSign [1,2,3]
 -- [-1,-2,-3]
 applyFunctionOverList :: (Integer -> Integer) -> [Integer] -> [Integer]
-applyFunctionOverList func [] = []
+applyFunctionOverList _ [] = []
 applyFunctionOverList func (x:xs) = [func x]++ applyFunctionOverList func xs
 
 -- | selectWhereTrue
@@ -61,7 +61,7 @@ applyFunctionOverList func (x:xs) = [func x]++ applyFunctionOverList func xs
 -- >>> selectWhereTrue isPositive [0.0, 1.0, -1.0, -9.2, 3.0]
 -- [1.0,3.0]
 selectWhereTrue :: (Double -> Bool) -> [Double] -> [Double]
-selectWhereTrue func [] = []
+selectWhereTrue _ [] = []
 selectWhereTrue func (x:xs)
   |func x == True = [x] ++ selectWhereTrue func xs
   |otherwise = selectWhereTrue func xs
@@ -89,14 +89,14 @@ applyFunction'' f x = f x
 
 -- | applyFunctionOverList'
 --       applyFunctionOverList :: (Integer -> Integer) -> [Integer] -> [Integer]
-applyFunctionOverList' :: (Num a)=> (a -> a) -> [a] -> [a]
-applyFunctionOverList' func [] = []
+applyFunctionOverList' :: (Num a)=> (a -> b) -> [a] -> [b]
+applyFunctionOverList' _ [] = []
 applyFunctionOverList' func (x:xs) = [func x]++ applyFunctionOverList' func xs
 
 -- | selectWhereTrue'
 --       selectWhereTrue :: (Double -> Bool) -> [Double] -> [Double]
 selectWhereTrue' :: (Num a)=> (a -> Bool) -> [a] -> [a]
-selectWhereTrue' func [] = []
+selectWhereTrue' _ [] = []
 selectWhereTrue' func (x:xs)
   |func x == True = [x] ++ selectWhereTrue' func xs
   |otherwise = selectWhereTrue' func xs
@@ -112,22 +112,14 @@ selectWhereTrue' func (x:xs)
 -- >>> combineListsWithBinaryOperation div [1..10] [-10..0]
 -- [-1, -1, -1, -1, -1, -2, -2, -3, -5, -10]
 combineListsWithBinaryOperation :: (a->b->c)-> [a] -> [b] -> [c]
-combineListsWithBinaryOperation f [][] = []
-combineListsWithBinaryOperation f [_][]=[]
-combineListsWithBinaryOperation f [][_]=[]
-combineListsWithBinaryOperation f (x:xs) (y:ys) = (f x y):combineListsWithBinaryOperation f xs ys
-
+combineListsWithBinaryOperation f (x:xs) (y:ys) = f x y:combineListsWithBinaryOperation f xs ys
+combineListsWithBinaryOperation _ _ _ = []
 
 -- | combineElementsIntoTuples
 combineElementsIntoTuples :: [a] -> [b] -> [(a, b)]
-combineElementsIntoTuples [] [] = []
-combineElementsIntoTuples [x] [y] = [(x,y)]
-combineElementsIntoTuples (x:xs) (y:ys) = (x,y):combineElementsIntoTuples xs ys
+combineElementsIntoTuples (x:xs) (y:ys) = (x,y) : combineElementsIntoTuples xs ys
+combineElementsIntoTuples _ _ = []
 
-
--- -- | combineElementsIntoTuples'
--- combineElementsIntoTuples' :: ((a->b->c)-> [a] -> [b] -> [c]) ->[(a, b)]
--- combineElementsIntoTuples' f a b= combineListsWithBinaryOperation a b
 
 -- | foldRight
 -- Examples:
@@ -141,8 +133,9 @@ combineElementsIntoTuples (x:xs) (y:ys) = (x,y):combineElementsIntoTuples xs ys
 -- >>> foldRight (-) 0 [1,2,3,4,5]
 -- 3
 foldRight :: (a -> b -> b) -> b -> [a] -> b -- predefined as foldr
-foldRight f e [] = e
-foldRight f e (x:xs) =
+foldRight _ e [] = e
+foldRight f e (x:xs) = f x (foldRight f e xs)
+-- foldRight f e (x:xs) = foldRight f (f x e) xs
 
 -- | foldLeft
 -- Examples:
@@ -158,7 +151,8 @@ foldRight f e (x:xs) =
 -- The following property does not hold:
 -- prop> foldLeft (-) 0 xs == foldRight (-) 0 xs
 foldLeft :: (b -> a -> b) -> b -> [a] -> b -- predefined as foldl
-foldLeft f e xs = undefined -- TODO
+foldLeft _ e [] = e
+foldLeft f e (x:xs) = foldLeft f (f e x) xs
 
 -- | Reimplement sum using foldLeft or foldRight
 -- TODO
