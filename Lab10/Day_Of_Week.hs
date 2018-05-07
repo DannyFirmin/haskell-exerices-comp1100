@@ -87,6 +87,7 @@ leap_years_since_1_January_0 year = case year of
 
 days_before_this_year :: Year -> Natural
 days_before_this_year y
+  |y == 0 = 0
   |y == 1 = 365
   |is_leap_year y     = 366 + days_before_this_year(y-1)
   |not (is_leap_year y) = 365 + days_before_this_year(y-1)
@@ -94,11 +95,10 @@ days_before_this_year y
 
 day_of_week :: Date -> Days
 day_of_week n
-  |toInteger(days_since_1_January_0 n) `mod` 7 == 0 = Saturday
-  |toInteger(days_since_1_January_0 n) `mod` 7 == 1 = Sunday
-  |toInteger(days_since_1_January_0 n) `mod` 7 == 2 = Monday
-  |toInteger(days_since_1_January_0 n) `mod` 7 == 3 = Tuesday
-  |toInteger(days_since_1_January_0 n) `mod` 7 == 4 = Wednesday
-  |toInteger(days_since_1_January_0 n) `mod` 7 == 5 = Thursday
-  |toInteger(days_since_1_January_0 n) `mod` 7 == 6 = Friday
-
+  |days_since_1_January_0 n `mod` 7 == 0 = Saturday
+  |days_since_1_January_0 n `mod` 7 == 1 = Sunday
+  |days_since_1_January_0 n `mod` 7 == 2 = Monday
+  |days_since_1_January_0 n `mod` 7 == 3 = Tuesday
+  |days_since_1_January_0 n `mod` 7 == 4 = Wednesday
+  |days_since_1_January_0 n `mod` 7 == 5 = Thursday
+  |days_since_1_January_0 n `mod` 7 == 6 = Friday
