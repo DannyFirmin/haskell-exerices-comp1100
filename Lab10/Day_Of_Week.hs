@@ -1,6 +1,6 @@
 -- File name: Day_Of_Week.hs
--- Author: <your name>, u<your uni id>
--- Date: <today's date>
+-- Author: Danny Feng, (u6611178)
+-- Date: 7 May 2018
 -- Description: Provides functions to assist in calculating
 --              the day of the week.
 module Day_Of_Week where
@@ -30,7 +30,8 @@ days_since_1_January_0 (Date day month year) =
   days_in_previous_months month year +
   days_before_this_year year
 
-previous_days_this_month = undefined --TODO
+previous_days_this_month :: Day -> Natural
+previous_days_this_month d = from_Positive_to_Natural d-1
 
 days_in_previous_months :: Month -> Year -> Natural
 days_in_previous_months month year =
@@ -42,10 +43,62 @@ days_in_previous_months month year =
       | is_leap_year year = 29
       | otherwise = 28
 
-is_leap_year = undefined --TODO
+days_in_previous_months' :: Month -> Year -> Natural
+days_in_previous_months' month year
+  | is_leap_year year = case month of
+        January   -> 0
+        February  -> 31
+        March     -> 60
+        April     -> 91
+        May       -> 121
+        June      -> 152
+        July      -> 182
+        August    -> 213
+        September -> 244
+        October   -> 274
+        November  -> 305
+        December  -> 335
+  | otherwise = case month of
+        January   -> 0
+        February  -> 31
+        March     ->  59
+        April     ->  90
+        May       -> 120
+        June      -> 151
+        July      -> 181
+        August    -> 212
+        September -> 243
+        October   -> 273
+        November  -> 304
+        December  -> 334
 
-days_before_this_year = undefined --TODO
+is_leap_year :: Year -> Bool
+is_leap_year y
+ | y `mod` 4 == 0 && y `mod` 100 /= 0  = True
+ | y `mod` 4 == 0 && y `mod` 400 == 0 = True
+ | otherwise = False
+
+leap_years_since_1_January_0 :: Year -> Natural
+leap_years_since_1_January_0 year = case year of
+    0 -> 0
+    _ -> 1 + pre_year `quot` 4 - pre_year `quot` 100 + pre_year `quot` 400
+        where pre_year = year - 1
+
+
+days_before_this_year :: Year -> Natural
+days_before_this_year y
+  |y == 1 = 365
+  |is_leap_year y     = 366 + days_before_this_year(y-1)
+  |not (is_leap_year y) = 365 + days_before_this_year(y-1)
+
 
 day_of_week :: Date -> Days
-day_of_week = undefined --TODO
+day_of_week n
+  |toInteger(days_since_1_January_0 n) `mod` 7 == 0 = Saturday
+  |toInteger(days_since_1_January_0 n) `mod` 7 == 1 = Sunday
+  |toInteger(days_since_1_January_0 n) `mod` 7 == 2 = Monday
+  |toInteger(days_since_1_January_0 n) `mod` 7 == 3 = Tuesday
+  |toInteger(days_since_1_January_0 n) `mod` 7 == 4 = Wednesday
+  |toInteger(days_since_1_January_0 n) `mod` 7 == 5 = Thursday
+  |toInteger(days_since_1_January_0 n) `mod` 7 == 6 = Friday
 
