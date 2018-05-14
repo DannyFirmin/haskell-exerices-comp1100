@@ -185,7 +185,7 @@ library Dates
   other-modules:       Dates, Integer_Subtypes
 
 library Day-Of-Week
-  build-depends:       base >=4.10 && <4.11, binary, random
+  build-depends:       base >=4.10 && <4.11, binary, random, QuickCheck
   default-language:    Haskell2010
   hs-source-dirs:      Lab10
   other-modules:       Day_Of_Week, Dates, Integer_Subtypes
@@ -208,4 +208,16 @@ library Zellers-Congruence
   hs-source-dirs:      Lab10
   other-modules:       Zellers_Congruence, Dates, Integer_Subtypes
 
+library BinaryTreeTests
+  other-modules:       BinaryTreeTests, BinaryTree
+  hs-source-dirs:      Lab08, Lab11
+  default-language:    Haskell2010
+  build-depends:       base >=4.10 && < 4.11, doctest >= 0.14.0, QuickCheck
+  ghc-options:         -W
 
+library BinarySearchTreeTests
+  other-modules:       BinarySearchTreeTests, BinarySearchTree, BinaryTree
+  hs-source-dirs:      Lab08, Lab11
+  default-language:    Haskell2010
+  build-depends:       base >=4.10 && < 4.11, doctest >= 0.14.0, QuickCheck
+  ghc-options:         -W
