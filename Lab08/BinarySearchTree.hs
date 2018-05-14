@@ -1,4 +1,13 @@
-module BinarySearchTree where
+module BinarySearchTree (
+  BinarySearchTree,
+  treeIsValid,        -- :: (Ord a) => BinarySearchTree a -> Bool
+  treeContains,       -- :: (Ord a) => a -> BinarySearchTree a -> Bool
+  treeInsert,         -- :: (Ord a) => a -> BinarySearchTree a -> BinarySearchTree a
+  treeMinimum,        -- :: BinarySearchTree a -> a
+  treeMaximum,        -- :: BinarySearchTree a -> a
+  treeFlattenOrdered  -- :: BinarySearchTree a -> [a]
+) where
+
 
 import BinaryTree
 

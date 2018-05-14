@@ -86,6 +86,13 @@ prop_reasonablyBalanced tree =
   (fromIntegral (treeDepth tree :: Integer) :: Double) <=
   2 * logBase 2 (1 + fromIntegral (treeSize tree :: Integer))
 
+
+-- | Insert and Contains
+-- prop> prop_insertandContains
+prop_insertandContains :: String -> BinarySearchTree String -> Bool
+prop_insertandContains str tree = treeContains str (treeInsert str tree)
+
+
 -- QuickCheck tests to run by hand
 test_prop_unflattenedSize :: IO ()
 test_prop_unflattenedSize = quickCheck prop_unflattenedSize
@@ -107,3 +114,6 @@ test_prop_isValidBinarySearchTree = quickCheck prop_isValidBinarySearchTree
 
 test_prop_reasonablyBalanced :: IO ()
 test_prop_reasonablyBalanced = quickCheck prop_reasonablyBalanced
+
+test_prop_insertandContains :: IO ()
+test_prop_insertandContains = quickCheck prop_insertandContains

@@ -22,6 +22,9 @@ prop_keepSize tree = (treeSize tree :: Integer) == treeSize (treeMap (+ 1) tree)
 prop_reverseFunction :: BinaryTree Integer -> Bool
 prop_reverseFunction tree = tree == treeMap (+ (-1)) (treeMap (+ 1) tree)
 
+prop_maxLeaves:: BinaryTree Integer -> Bool
+prop_maxLeaves tree = toInteger(length (treeLeaves tree :: [Integer])+1) <= ((2^(treeDepth tree :: Integer))::Integer)
+
 -- | A binary search tree has size no less than its depth
 -- prop> prop_largerThanDeep
 prop_largerThanDeep :: BinaryTree Integer -> Bool
@@ -39,3 +42,6 @@ test_prop_reverseFunction = quickCheck prop_reverseFunction
 
 test_prop_largerThanDeep :: IO ()
 test_prop_largerThanDeep = quickCheck prop_largerThanDeep
+
+test_prop_maxLeaves :: IO ()
+test_prop_maxLeaves = quickCheck prop_maxLeaves
