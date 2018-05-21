@@ -4,7 +4,7 @@ import BinaryTree
 import Test.QuickCheck
 
 instance Arbitrary a => Arbitrary (BinaryTree a) where
-  arbitrary = oneof [pure Null, Node <$> arbitrary <*> arbitrary <*> arbitrary]
+  arbitrary = frequency [(2, pure Null), (1, Node <$> arbitrary <*> arbitrary <*> arbitrary)]
 
 -- | A binary tree has size equal to its length when flattened
 -- prop> prop_unflattenedSize
