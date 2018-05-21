@@ -15,6 +15,7 @@ module SetsWithTrees
   , setFilter -- :: (a -> Bool) -> Set a -> Set a
   ) where
 import BinarySearchTree
+import Data.List
 
 newtype Set a = Set{storage::BinarySearchTreeSet a}
 
@@ -27,19 +28,20 @@ data BinarySearchTreeSet a
   deriving (Show, Eq)
 
 isLegalSet :: (Eq a) => Set a -> Bool
-isLegalSet (Set list) = list == nub list
+isLegalSet (Set a) = a == nub a
 
 emptySet :: Set a
 emptySet = Set Null
 
 singletonSet :: a -> Set a
-singletonSet element = Set Node element Null Null
+singletonSet element = Set (Node element Null Null)
 
 setSize :: Integral b => Set a -> b
-setSize n =
- case n of
+setSize (Set tree) =
+ case tree of
  Null -> 0
- Node _ l r -> 1 + treeSize l + treeSize r
+ Node _ l r -> 1 + setSize (Set l) + setSize (Set r)
+
 --O(n logn)
 setEquals :: (Eq a) => Set a -> Set a -> Bool
 setA `setEquals` setB =
@@ -47,22 +49,21 @@ setA `setEquals` setB =
     (Null, Null) -> True
     (Null, _) -> False
     (_, Null) -> False
-    (x:xs, _) ->
-      containsElement setB x && Set xs `setEquals` removeElement x setB
+    (Node n l r, Node n' l' r') ->
+      n == n' && Set l `setEquals` Set l' && Set r `setEquals` Set r'
 
 containsElement :: (Eq a) => Set a -> a -> Bool
-containsElement a Null = False
-containsElement a (Node c l r)
-  |a==c = True
-  |otherwise = containsElement a l || containsElement a r
+containsElement (Set (Node n l r)) elem
+  |n==elem = True
+  |otherwise = containsElement (Set l) elem || containsElement (Set r) elem
 
 
 addElement :: (Eq a) => a -> Set a -> Set a
-addElement x Null  = Node x Null Null
-addElement x (Node a l r)
-  |a == x = Node a l r
-  |a < x = Node a l (addElement x r)
-  |a > x = Node a (addElement x l) r
+addElement x (Set Null)  = Set (Node x Null Null)
+addElement x Set(Node a l r)
+  |a == x = Set$Node a l r
+  |a < x = Set$Node a l (addElement x r)
+  |a > x = Set$Node a (addElement x l) r
 
 removeElement :: (Eq a) => a -> Set a -> Set a
 removeElement element (Set list) = Set (delete element list)
@@ -78,7 +79,7 @@ setDifference :: (Eq a) => Set a -> Set a -> Set a
 setDifference (Set list_a) (Set list_b) = Set (list_a \\ list_b)
 
 setMap :: (Eq b) => (a -> b) -> Set a -> Set b
-setMap f (Set list) = Set (nub (map f list))
+setMap f (Set (Node n l r)) = Set (nub (map f (treeFlattenOrdered(Node n l r))))
 
 setFilter :: (a -> Bool) -> Set a -> Set a
 setFilter f (Set list) = Set (filter f list)
