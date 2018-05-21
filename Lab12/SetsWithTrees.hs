@@ -14,44 +14,71 @@ module SetsWithTrees
   , setMap -- :: (Eq b) => (a -> b) -> Set a -> Set b
   , setFilter -- :: (a -> Bool) -> Set a -> Set a
   ) where
+import BinarySearchTree
 
-newtype Set a = Set ()
+newtype Set a = Set{storage::BinarySearchTreeSet a}
+
+
+data BinarySearchTreeSet a
+  = Null
+  | Node a
+         (BinarySearchTreeSet a)
+         (BinarySearchTreeSet a)
+  deriving (Show, Eq)
 
 isLegalSet :: (Eq a) => Set a -> Bool
-isLegalSet = undefined
+isLegalSet (Set list) = list == nub list
 
 emptySet :: Set a
-emptySet = undefined
+emptySet = Set Null
 
 singletonSet :: a -> Set a
-singletonSet = undefined
+singletonSet element = Set Node element Null Null
 
 setSize :: Integral b => Set a -> b
-setSize = undefined
-
+setSize n =
+ case n of
+ Null -> 0
+ Node _ l r -> 1 + treeSize l + treeSize r
+--O(n logn)
 setEquals :: (Eq a) => Set a -> Set a -> Bool
-setEquals = undefined
+setA `setEquals` setB =
+  case (storage setA, storage setB) of
+    (Null, Null) -> True
+    (Null, _) -> False
+    (_, Null) -> False
+    (x:xs, _) ->
+      containsElement setB x && Set xs `setEquals` removeElement x setB
 
 containsElement :: (Eq a) => Set a -> a -> Bool
-containsElement = undefined
+containsElement a Null = False
+containsElement a (Node c l r)
+  |a==c = True
+  |otherwise = containsElement a l || containsElement a r
+
 
 addElement :: (Eq a) => a -> Set a -> Set a
-addElement = undefined
+addElement x Null  = Node x Null Null
+addElement x (Node a l r)
+  |a == x = Node a l r
+  |a < x = Node a l (addElement x r)
+  |a > x = Node a (addElement x l) r
 
 removeElement :: (Eq a) => a -> Set a -> Set a
-removeElement = undefined
+removeElement element (Set list) = Set (delete element list)
+
 
 setUnion :: (Eq a) => Set a -> Set a -> Set a
-setUnion = undefined
+setUnion (Set list_a) (Set list_b) = Set (list_a `union` list_b)
 
 setIntersection :: (Eq a) => Set a -> Set a -> Set a
-setIntersection = undefined
+setIntersection (Set list_a) (Set list_b) = Set (list_a `intersect` list_b)
 
 setDifference :: (Eq a) => Set a -> Set a -> Set a
-setDifference = undefined
+setDifference (Set list_a) (Set list_b) = Set (list_a \\ list_b)
 
 setMap :: (Eq b) => (a -> b) -> Set a -> Set b
-setMap = undefined
+setMap f (Set list) = Set (nub (map f list))
 
 setFilter :: (a -> Bool) -> Set a -> Set a
-setFilter = undefined
+setFilter f (Set list) = Set (filter f list)
