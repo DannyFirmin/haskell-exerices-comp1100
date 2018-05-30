@@ -88,9 +88,9 @@ leap_years_since_1_January_0 year = case year of
 days_before_this_year :: Year -> Natural
 days_before_this_year y
   |y == 0 = 0
-  |y == 1 = 365
-  |is_leap_year y     = 366 + days_before_this_year(y-1)
-  |not (is_leap_year y) = 365 + days_before_this_year(y-1)
+  |y == 1 = 366
+  |is_leap_year (y-1)     = 366 + days_before_this_year(y-1)
+  |not (is_leap_year (y-1)) = 365 + days_before_this_year(y-1)
 
 
 day_of_week :: Date -> Days
