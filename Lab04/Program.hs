@@ -19,8 +19,5 @@ trafficController t
   | otherwise                         = trafficLight False
 
 main :: IO ()
-<<<<<<< HEAD:Lab04/CodeWorld.hs
-main = animationOf trafficController
-=======
 main = drawingOf ourPicture
->>>>>>> upstream/master:Lab04/Program.hs
+
