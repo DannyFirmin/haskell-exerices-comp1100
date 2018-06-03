@@ -15,6 +15,7 @@ module SetsWithTrees
   , setFilter -- :: (a -> Bool) -> Set a -> Set a
   ) where
 import BinarySearchTree
+import BinaryTree
 import Data.List
 
 newtype Set a = Set{storage::BinarySearchTreeSet a}
@@ -66,8 +67,12 @@ addElement x Set(Node a l r)
   |a > x = Set$Node a (addElement x l) r
 
 removeElement :: (Eq a) => a -> Set a -> Set a
-removeElement element (Set list) = Set (delete element list)
+removeElement element (Set Null) = Set Null
+removeElement element (Set (Node n l r)) = Set (buildTree (delete element (treeFlatten (Node n l r))))
 
+buildTree :: [a]-> BinaryTree a
+buildTree [ ]= Null
+buildTree (x:xs) = addElement x (buildTree xs)
 
 setUnion :: (Eq a) => Set a -> Set a -> Set a
 setUnion (Set list_a) (Set list_b) = Set (list_a `union` list_b)
