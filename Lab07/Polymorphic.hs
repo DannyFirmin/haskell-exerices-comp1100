@@ -29,7 +29,7 @@ reverseOf n = case n of
 
 -- | A polymorphic isPalindrome function
 isPalindrome :: (Eq a) => [a] -> Bool
-isPalindrome list = (list == reverseOf list)
+isPalindrome list = list == reverseOf list
 
 -- | A polymorphic list equality function
 listEqual :: (Eq a) => [a] -> [a] -> Bool
@@ -53,7 +53,7 @@ normaliseVector vector = divideByScalar vector (norm vector)
 divideByScalar :: (Fractional a) =>[a] -> a -> [a]
 divideByScalar vector' scalar = case vector' of
    [] -> []
-   f: fs -> (f / scalar): (divideByScalar fs scalar)
+   f: fs -> (f / scalar): divideByScalar fs scalar
 
 norm :: (Floating a) => [a] -> a
 norm vector' = sqrt(sumSqr vector')
@@ -61,7 +61,7 @@ norm vector' = sqrt(sumSqr vector')
   sumSqr :: (Num a)=> [a] -> a
   sumSqr vector'' = case vector'' of
     []    -> 0
-    f: fs -> f*f + (sumSqr fs)
+    f: fs -> f*f + sumSqr fs
 
 reallyPolymorphicLength :: (Integral b) => [a] -> b
 reallyPolymorphicLength list = case list of

@@ -48,7 +48,7 @@ reverseOf list = case list of
 -- >>> isPalindrome "123"
 -- False
 isPalindrome :: String -> Bool
-isPalindrome list = (list == reverseOf list)
+isPalindrome list = list == reverseOf list
 
 -- | Tests whether each element is smaller or equal to the next element.
 -- Examples:
@@ -98,7 +98,7 @@ normaliseVector vector = divideByScalar vector (norm vector)
       divideByScalar :: [Float] -> Float -> [Float]
       divideByScalar vector' scalar = case vector' of
          []    -> []
-         f: fs -> (f / scalar): (divideByScalar fs scalar)
+         f: fs -> (f / scalar): divideByScalar fs scalar
 
       -- Calculates the norm (length) of a vector.
       norm :: [Float] -> Float
@@ -109,7 +109,7 @@ normaliseVector vector = divideByScalar vector (norm vector)
             sumSqr :: [Float] -> Float
             sumSqr vector'' = case vector'' of
                []    -> 0
-               f: fs -> f*f + (sumSqr fs)
+               f: fs -> f*f + sumSqr fs
 
 -- | Calculates the ratio of the sums of two lists.
 listSumRatio :: [Float] -> [Float] -> Maybe Float

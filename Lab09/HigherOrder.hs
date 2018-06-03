@@ -51,7 +51,7 @@ reverseSign m = -m
 -- [-1,-2,-3]
 applyFunctionOverList :: (Integer -> Integer) -> [Integer] -> [Integer]
 applyFunctionOverList _ [] = []
-applyFunctionOverList func (x:xs) = [func x]++ applyFunctionOverList func xs
+applyFunctionOverList func (x:xs) = func x : applyFunctionOverList func xs
 
 -- | selectWhereTrue
 -- Examples:
@@ -64,7 +64,7 @@ applyFunctionOverList func (x:xs) = [func x]++ applyFunctionOverList func xs
 selectWhereTrue :: (Double -> Bool) -> [Double] -> [Double]
 selectWhereTrue _ [] = []
 selectWhereTrue func (x:xs)
-  |func x == True = [x] ++ selectWhereTrue func xs
+  |func x = x : selectWhereTrue func xs
   |otherwise = selectWhereTrue func xs
 
 isNegative :: Double -> Bool
@@ -92,14 +92,14 @@ applyFunction'' f x = f x
 --       applyFunctionOverList :: (Integer -> Integer) -> [Integer] -> [Integer]
 applyFunctionOverList' :: (Num a)=> (a -> b) -> [a] -> [b]
 applyFunctionOverList' _ [] = []
-applyFunctionOverList' func (x:xs) = [func x]++ applyFunctionOverList' func xs
+applyFunctionOverList' func (x:xs) = func x : applyFunctionOverList' func xs
 
 -- | selectWhereTrue'
 --       selectWhereTrue :: (Double -> Bool) -> [Double] -> [Double]
 selectWhereTrue' :: (Num a)=> (a -> Bool) -> [a] -> [a]
 selectWhereTrue' _ [] = []
 selectWhereTrue' func (x:xs)
-  |func x == True = [x] ++ selectWhereTrue' func xs
+  |func x = x : selectWhereTrue' func xs
   |otherwise = selectWhereTrue' func xs
 -- | combineListsWithBinaryOperation
 -- Examples:

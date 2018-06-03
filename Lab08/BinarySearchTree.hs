@@ -16,7 +16,7 @@ type BinarySearchTree a = BinaryTree a
 isAscending :: Ord a=> [a] -> Bool
 isAscending [] = False
 isAscending [x] = True
-isAscending (x:xs) = x <= head (xs) && isAscending xs
+isAscending (x:xs) = x <= head xs && isAscending xs
 
 treeIsValid :: Ord a=>BinarySearchTree a -> Bool
 --treeIsValid :: Ord a => BinarySearchTree a -> Bool
